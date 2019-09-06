@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        changeBallImageAnswer()
+        self.ballImage.alpha = 0.0
         // Do any additional setup after loading the view.
     }
 
@@ -25,11 +25,18 @@ class ViewController: UIViewController {
     
     func changeBallImageAnswer(){
         randomNumber = Int(arc4random_uniform(5)) + 1
-        
-        ballImage.image = UIImage(named: "ball\(randomNumber)")
+        UIView.animate(withDuration: 1.0, delay: 0.0, options: .curveEaseOut, animations: {
+            self.ballImage.alpha = 0.0
+        }, completion: { (finished: Bool) in
+            self.ballImage.image = UIImage(named: "ball\(self.randomNumber)")
+            UIView.animate(withDuration: 1.0, delay: 0.5, options: .curveEaseOut, animations: {
+                self.ballImage.alpha = 1.0
+            }, completion: nil)
+        })
     }
     
     override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
+        
         changeBallImageAnswer();
     }
     
